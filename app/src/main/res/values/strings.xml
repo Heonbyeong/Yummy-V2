@@ -2,4 +2,6 @@
     <string name="app_name">Yummy-V2</string>
     <string name="title_home">홈</string>
     <string name="title_recommend">추천</string>
+    <string name="Yummy">YUMMY</string>
+    <string name="sub_title">대한민국 1등 음식점 추천 어플</string>
 </resources>
