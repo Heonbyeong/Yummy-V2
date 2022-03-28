@@ -9,11 +9,11 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeFragment">
 
-        <fragment
+        <com.google.android.gms.maps.MapView
             android:id="@+id/google_map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.google.android.gms.maps.SupportMapFragment"/>
+            android:name="com.google.android.gms.maps.MapFragment"/>
 
     </LinearLayout>
 
