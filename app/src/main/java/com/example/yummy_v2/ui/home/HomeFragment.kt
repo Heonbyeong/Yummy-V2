@@ -2,6 +2,7 @@ package com.example.yummy_v2.ui.home
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityCompat
@@ -10,6 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.yummy_v2.R
 import com.example.yummy_v2.base.BaseFragment
 import com.example.yummy_v2.databinding.FragmentHomeBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -25,6 +30,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     private val PERMISSIONS_REQUEST_CODE = 100
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION)
+
+    private lateinit var mFusedLocationClient : FusedLocationProviderClient
+    private lateinit var locationRequest : LocationRequest
+    private lateinit var location : Location
+    private val UPDATE_INTERVAL_MS = 1000L
+    private val FASTEST_UPDATE_INTERVAL_MS = 500L
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        locationRequest = LocationRequest.create().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = UPDATE_INTERVAL_MS
+            fastestInterval = FASTEST_UPDATE_INTERVAL_MS
+        }
+
+        val builder = LocationSettingsRequest.Builder()
+        builder.addLocationRequest(locationRequest)
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
