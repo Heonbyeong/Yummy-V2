@@ -52,7 +52,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     private val UPDATE_INTERVAL_MS = 1000L
     private val FASTEST_UPDATE_INTERVAL_MS = 500L
 
-    private lateinit var mCurrentLocation : Location
     private lateinit var currentPosition : LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
