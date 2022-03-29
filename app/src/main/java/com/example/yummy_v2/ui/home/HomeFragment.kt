@@ -1,20 +1,25 @@
 package com.example.yummy_v2.ui.home
 
 import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context.LOCATION_SERVICE
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.yummy_v2.R
 import com.example.yummy_v2.base.BaseFragment
 import com.example.yummy_v2.databinding.FragmentHomeBinding
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -23,6 +28,16 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnMapReadyCallback {
+
+    private val gps =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if(it.resultCode == Activity.RESULT_OK){
+                if(checkLocationServicesStatus()){
+                    needRequest = true
+                }
+            }
+        }
+    private var needRequest = false
 
     private lateinit var mMap: GoogleMap
     private lateinit var mapView: MapView
@@ -36,6 +51,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     private lateinit var location : Location
     private val UPDATE_INTERVAL_MS = 1000L
     private val FASTEST_UPDATE_INTERVAL_MS = 500L
+
+    private lateinit var mCurrentLocation : Location
+    private lateinit var currentPosition : LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,10 +108,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         mMap = googleMap
 
         setDefaultLocation()
-        checkPermission()
+        permissionSnackBar()
     }
 
-    private fun checkPermission() {
+    private fun permissionSnackBar() {
         val hasFineLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
         val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
@@ -118,8 +136,52 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
     }
 
-    private fun startLocationUpdates() {
+    private fun checkPermission() : Boolean {
+        val hasFineLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION)
+        val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
+            Manifest.permission.ACCESS_COARSE_LOCATION)
 
+        if(hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
+                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
+            return true
+        }
+        return false
+    }
+
+    private fun startLocationUpdates() {
+        if(!checkLocationServicesStatus()){
+            showDialogForLocationSetting(gps)
+        } else {
+            val hasFineLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+            val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+
+            if(hasFineLocationPermission != PackageManager.PERMISSION_GRANTED ||
+                    hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED) {
+                return
+            }
+
+            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+            if(checkPermission()){
+                mMap.isMyLocationEnabled = true
+            }
+        }
+    }
+
+    private fun showDialogForLocationSetting(startForResult : ActivityResultLauncher<Intent>) {
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.apply {
+            setTitle(getString(R.string.dialog_title))
+            setMessage(getString(R.string.dialog_message))
+            setCancelable(true)
+            setPositiveButton("설정"
+            ) { dialog, id ->
+                val callGPSSettingIntent = Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startForResult.launch(callGPSSettingIntent)
+            }
+        }
     }
 
     private fun setDefaultLocation() {
@@ -139,5 +201,44 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15F)
         mMap.moveCamera(cameraUpdate)
+    }
+
+    private fun setCurrentLocation(location: Location, markerTitle: String, marketSnippet: String) {
+        if(currentMarker != null) currentMarker!!.remove()
+
+        val currentLatLng = LatLng(location.latitude, location.longitude)
+
+        val markerOptions = MarkerOptions()
+        markerOptions.apply {
+            position(currentLatLng)
+            title(markerTitle)
+            snippet(marketSnippet)
+            draggable(true)
+        }
+
+        currentMarker = mMap.addMarker(markerOptions)
+
+        val cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng)
+        mMap.moveCamera(cameraUpdate)
+    }
+
+    private fun checkLocationServicesStatus() : Boolean {
+        val locationManager : LocationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
+
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    private val locationCallback = object : LocationCallback(){
+        override fun onLocationResult(locationResult: LocationResult) {
+            super.onLocationResult(locationResult)
+
+            val locationList = locationResult.locations
+            if(locationList.size > 0) {
+                location = locationList[locationList.size - 1]
+
+                currentPosition = LatLng(location.latitude, location.longitude)
+            }
+        }
     }
 }
