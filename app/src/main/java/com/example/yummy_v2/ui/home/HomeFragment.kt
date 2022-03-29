@@ -11,12 +11,17 @@ import com.example.yummy_v2.R
 import com.example.yummy_v2.base.BaseFragment
 import com.example.yummy_v2.databinding.FragmentHomeBinding
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var mapView: MapView
+    private var currentMarker: Marker? = null
     private val PERMISSIONS_REQUEST_CODE = 100
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -58,6 +63,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+
+        setDefaultLocation()
         checkPermission()
     }
 
@@ -88,5 +95,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     private fun startLocationUpdates() {
 
+    }
+
+    private fun setDefaultLocation() {
+        if(currentMarker != null) currentMarker!!.remove()
+
+        val DEFAULT_LOCATION = LatLng(37.56, 126.97)
+
+        val markerOptions = MarkerOptions()
+        markerOptions.apply {
+            position(DEFAULT_LOCATION)
+            title(getString(R.string.default_marker_title))
+            snippet(getString(R.string.default_marker_snippet))
+            draggable(true)
+            icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            currentMarker = mMap.addMarker(markerOptions)
+        }
+
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15F)
+        mMap.moveCamera(cameraUpdate)
     }
 }

@@ -5,4 +5,6 @@
     <string name="Yummy">YUMMY</string>
     <string name="sub_title">대한민국 1등 음식점 추천 어플</string>
     <string name="snack_bar_message">앱을 실행하려면 위치 접근 권한이 필요합니다.</string>
+    <string name="default_marker_title">위치정보 가져올 수 없음</string>
+    <string name="default_marker_snippet">위치 권한과 GPS 활성 여부를 확인하세요.</string>
 </resources>
