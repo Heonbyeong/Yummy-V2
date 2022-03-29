@@ -58,6 +58,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        checkPermission()
     }
 
     private fun checkPermission() {
