@@ -54,6 +54,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     private lateinit var currentPosition : LatLng
 
+    private val lat_list = ArrayList<Double>()
+    private val lng_list = ArrayList<Double>()
+    private val vicinity_list = ArrayList<String>()
+    private val marker_list = ArrayList<Marker>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         locationRequest = LocationRequest.create().apply {
