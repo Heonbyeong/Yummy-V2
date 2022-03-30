@@ -19,7 +19,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.yummy_v2.R
 import com.example.yummy_v2.base.BaseFragment
 import com.example.yummy_v2.databinding.FragmentHomeBinding
-import com.example.yummy_v2.network.PlacesAPI
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -50,8 +49,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     private lateinit var mFusedLocationClient : FusedLocationProviderClient
     private lateinit var locationRequest : LocationRequest
     private lateinit var location : Location
-    private val UPDATE_INTERVAL_MS = 1000L
-    private val FASTEST_UPDATE_INTERVAL_MS = 500L
+    private val UPDATE_INTERVAL_MS = 100L
+    private val FASTEST_UPDATE_INTERVAL_MS = 50L
 
     private lateinit var currentPosition : LatLng
 
@@ -62,9 +61,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             interval = UPDATE_INTERVAL_MS
             fastestInterval = FASTEST_UPDATE_INTERVAL_MS
         }
-
-        val builder = LocationSettingsRequest.Builder()
-        builder.addLocationRequest(locationRequest)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
@@ -227,7 +223,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 location = locationList[locationList.size - 1]
 
                 currentPosition = LatLng(location.latitude, location.longitude)
-                setCurrentLocation(location)
             }
         }
     }
