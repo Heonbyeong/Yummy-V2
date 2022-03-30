@@ -2,9 +2,10 @@ package com.example.yummy_v2.network
 
 import android.content.Context
 import android.widget.Toast
-import com.example.yummy_v2.R
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.gms.maps.model.MarkerOptions
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -17,9 +18,9 @@ class PlacesAPI(
     private val mContext: Context,
     private val _lat: Double,
     private val _lng: Double,
-    private val _radius: Double,
-    private val _type: String
+    private val _map: GoogleMap
 ) : Thread() {
+
     private val lat_list = ArrayList<Double>()
     private val lng_list = ArrayList<Double>()
     private val vicinity_list = ArrayList<String>()
@@ -32,10 +33,9 @@ class PlacesAPI(
             lat_list.clear()
             lng_list.clear()
             vicinity_list.clear()
-            marker_list.clear()
 
             val request =
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$_lat,$_lng&radius=$_radius&language=ko&type=$_type&key=${
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$_lat,$_lng&radius=$1000&language=ko&type=restaurant&key=${
                     Properties().getProperty("MAPS_API_KEY")
                 }"
             val url = URL(request)
@@ -74,11 +74,30 @@ class PlacesAPI(
                     name_list.add(name)
                     vicinity_list.add(vicinity)
                 }
+                placeMarker()
             } else {
                 Toast.makeText(mContext, "가져온 데이터가 없습니다.", Toast.LENGTH_SHORT).show()
             }
         } catch (e : Exception){
             e.printStackTrace()
+        }
+    }
+
+    private fun placeMarker() {
+        for(marker: Marker in marker_list){
+            marker.remove()
+        }
+        marker_list.clear()
+
+        for(i in 0 until lat_list.size){
+            val options = MarkerOptions()
+            val pos = LatLng(lat_list[i], lng_list[i])
+            options.position(pos)
+            options.title(name_list[i])
+            options.snippet(vicinity_list[i])
+
+            val marker = _map.addMarker(options)
+            marker_list.add(marker!!)
         }
     }
 }
