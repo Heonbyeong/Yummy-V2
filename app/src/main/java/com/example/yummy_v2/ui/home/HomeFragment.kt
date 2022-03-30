@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.yummy_v2.R
 import com.example.yummy_v2.base.BaseFragment
 import com.example.yummy_v2.databinding.FragmentHomeBinding
+import com.example.yummy_v2.network.PlacesAPI
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -202,21 +203,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         mMap.moveCamera(cameraUpdate)
     }
 
-    private fun setCurrentLocation(location: Location, markerTitle: String, marketSnippet: String) {
+    private fun setCurrentLocation(location: Location) {
         if(currentMarker != null) currentMarker!!.remove()
 
         val currentLatLng = LatLng(location.latitude, location.longitude)
-
-        val markerOptions = MarkerOptions()
-        markerOptions.apply {
-            position(currentLatLng)
-            title(markerTitle)
-            snippet(marketSnippet)
-            draggable(true)
-        }
-
-        currentMarker = mMap.addMarker(markerOptions)
-
         val cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng)
         mMap.moveCamera(cameraUpdate)
     }
@@ -237,6 +227,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 location = locationList[locationList.size - 1]
 
                 currentPosition = LatLng(location.latitude, location.longitude)
+                setCurrentLocation(location)
             }
         }
     }
