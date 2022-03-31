@@ -1,7 +1,9 @@
 package com.example.yummy_v2.network
 
+import android.app.Activity
 import android.content.Context
 import android.widget.Toast
+import com.example.yummy_v2.BuildConfig
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
@@ -35,9 +37,7 @@ class PlacesAPI(
             vicinity_list.clear()
 
             val request =
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$_lat,$_lng&radius=$1000&language=ko&type=restaurant&key=${
-                    Properties().getProperty("MAPS_API_KEY")
-                }"
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$_lat,$_lng&radius=5000&language=ko&type=restaurant&key=${BuildConfig.MAPS_API_KEY}"
             val url = URL(request)
             val conn = url.openConnection()
 
@@ -89,15 +89,18 @@ class PlacesAPI(
         }
         marker_list.clear()
 
-        for(i in 0 until lat_list.size){
-            val options = MarkerOptions()
-            val pos = LatLng(lat_list[i], lng_list[i])
-            options.position(pos)
-            options.title(name_list[i])
-            options.snippet(vicinity_list[i])
-
-            val marker = _map.addMarker(options)
-            marker_list.add(marker!!)
+        (mContext as Activity).runOnUiThread{
+            for(i in 0 until lat_list.size){
+                val options = MarkerOptions()
+                val pos = LatLng(lat_list[i], lng_list[i])
+                options.apply {
+                    position(pos)
+                    title(name_list[i])
+                    snippet(vicinity_list[i])
+                }
+                val marker = _map.addMarker(options)
+                marker_list.add(marker!!)
+            }
         }
     }
 }

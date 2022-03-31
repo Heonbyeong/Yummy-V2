@@ -250,7 +250,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     isRun = true
                 }
 
-                PlacesAPI(requireContext(), location.latitude, location.longitude, mMap)
+                PlacesAPI(requireContext(), location.latitude, location.longitude, mMap).start()
             }
         }
     }
