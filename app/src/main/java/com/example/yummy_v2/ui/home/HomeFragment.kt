@@ -86,11 +86,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         if(checkPermission()){
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
-
-//            if(mMap != null) {
-//                setCurrentLocation(location)
-//                mMap.isMyLocationEnabled = true
-//            }
         }
     }
 
