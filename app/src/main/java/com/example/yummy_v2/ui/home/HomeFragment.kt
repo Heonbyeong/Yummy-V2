@@ -78,11 +78,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     override fun onStart() {
         super.onStart()
         mapView.onStart()
+
+        if(checkPermission()){
+            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+
+//            if(mMap != null) {
+//                setCurrentLocation(location)
+//                mMap.isMyLocationEnabled = true
+//            }
+        }
     }
 
     override fun onStop() {
         super.onStop()
         mapView.onStop()
+
+        if(mFusedLocationClient != null)
+            mFusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
     override fun onResume() {
@@ -102,6 +114,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.uiSettings.isMapToolbarEnabled = true
 
         setDefaultLocation()
         permissionSnackBar()
