@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.yummy_v2.R
 import com.example.yummy_v2.base.BaseFragment
 import com.example.yummy_v2.databinding.FragmentHomeBinding
+import com.example.yummy_v2.network.PlacesAPI
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -54,6 +55,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     private lateinit var currentPosition : LatLng
 
+    private var isRun = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         locationRequest = LocationRequest.create().apply {
@@ -61,8 +64,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             interval = UPDATE_INTERVAL_MS
             fastestInterval = FASTEST_UPDATE_INTERVAL_MS
         }
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,11 +74,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         mapView = binding.googleMap
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
     override fun onStart() {
         super.onStart()
         mapView.onStart()
+        isRun = false
+
 
         if(checkPermission()){
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
@@ -115,9 +120,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.uiSettings.isMapToolbarEnabled = true
 
-        setDefaultLocation()
+        if(!checkPermission()){
+            setDefaultLocation()
+        }
         permissionSnackBar()
     }
 
@@ -237,6 +243,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 location = locationList[locationList.size - 1]
 
                 currentPosition = LatLng(location.latitude, location.longitude)
+
+                if(!isRun){
+                    val cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentPosition, 15F)
+                    mMap.moveCamera(cameraUpdate)
+                    isRun = true
+                }
+
+                PlacesAPI(requireContext(), location.latitude, location.longitude, mMap)
             }
         }
     }
