@@ -78,6 +78,7 @@
                     android:textColor="@color/white"
                     android:textColorHint="@color/hint"
                     android:textSize="12sp"
+                    android:textCursorDrawable="@color/primary"
                     app:layout_constraintStart_toEndOf="@+id/imageView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
