@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="fragment"
+            type="com.example.yummy_v2.ui.home.HomeFragment" />
+    </data>
+
     <LinearLayout
         android:id="@+id/layout_home"
         android:layout_width="match_parent"
@@ -20,6 +26,7 @@
                 android:id="@+id/address_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> fragment.addressActivity()}"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
 
