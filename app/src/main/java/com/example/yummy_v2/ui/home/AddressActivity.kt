@@ -8,6 +8,7 @@ import com.example.yummy_v2.databinding.ActivityAddressBinding
 class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_address) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+        binding.activity = this
     }
+
 }
