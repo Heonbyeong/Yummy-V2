@@ -10,6 +10,8 @@ object RetrofitBuilder {
     private const val CONNECT_TIME_OUT: Long = 15
     private const val WRITE_TIME_OUT: Long = 15
     private const val READ_TIME_OUT: Long = 15
+    private var retrofit: Retrofit
+    private var addressAPI: AddressAPI
 
     private val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -22,9 +24,15 @@ object RetrofitBuilder {
         readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
     }.build()
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("http://www.juso.go.kr/")
-        .client(okHttpClient)
-        .addConverterFactory(ScalarsConverterFactory.create())
-        .build()
+    init {
+        retrofit = Retrofit.Builder()
+            .baseUrl("http://www.juso.go.kr/")
+            .client(okHttpClient)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build()
+
+        addressAPI = retrofit.create(AddressAPI::class.java)
+    }
+
+    fun getAddressAPI() = addressAPI
 }
