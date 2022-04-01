@@ -10,8 +10,8 @@ interface AddressAPI {
     suspend fun searchAddress(
         @Query("confmKey") confmKey: String,
         @Query("resultType") resultType: String,
-        @Query("currentPage") currentPage: String,
-        @Query("countPerPage") countPerPage: String,
+        @Query("currentPage") currentPage: Int,
+        @Query("countPerPage") countPerPage: Int,
         @Query("keyword") keyword: String
     ) : Response<AddressResponse>
 }

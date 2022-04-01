@@ -14,8 +14,8 @@ class AddressViewModel : ViewModel() {
     fun searchAddress(
         confmKey: String,
         resultType: String,
-        currentPage: String,
-        countPerPage: String,
+        currentPage: Int,
+        countPerPage: Int,
         keyword: String
     ) {
         viewModelScope.launch {

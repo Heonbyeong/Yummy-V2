@@ -6,8 +6,8 @@ interface AddressRepository {
     suspend fun searchAddress(
         confmKey: String,
         resultType: String,
-        currentPage: String,
-        countPerPage: String,
+        currentPage: Int,
+        countPerPage: Int,
         keyword: String
     ) : Response<AddressResponse>
 }

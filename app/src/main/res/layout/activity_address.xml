@@ -69,6 +69,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
+                    android:id="@+id/address_et"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
@@ -78,6 +79,8 @@
                     android:textColor="@color/white"
                     android:textColorHint="@color/hint"
                     android:textSize="12sp"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
                     android:textCursorDrawable="@color/primary"
                     app:layout_constraintStart_toEndOf="@+id/imageView" />
 
