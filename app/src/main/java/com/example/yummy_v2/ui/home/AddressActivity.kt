@@ -5,6 +5,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yummy_v2.BuildConfig
 import com.example.yummy_v2.R
@@ -30,10 +31,16 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
             return@setOnEditorActionListener handled
         }
 
-        addressViewModel.liveData.observe(this, Observer {
-            val addressAdapter = AddressRVAdapter(addressViewModel.liveData)
+        addressViewModel.liveData.observe(this, Observer { liveData ->
+            val addressAdapter = AddressRVAdapter(liveData)
             binding.listIsEmptyTv.visibility = View.INVISIBLE
             binding.addressRv.adapter = addressAdapter
+
+            addressAdapter.setOnItemClickListener(object: AddressRVAdapter.OnItemClickListener{
+                override fun onItemClick(v: View, position: Int) {
+
+                }
+            })
         })
     }
 }
