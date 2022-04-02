@@ -1,5 +1,6 @@
 package com.example.yummy_v2.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -38,7 +39,8 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
 
             addressAdapter.setOnItemClickListener(object: AddressRVAdapter.OnItemClickListener{
                 override fun onItemClick(v: View, position: Int) {
-
+                    val intent = Intent(this@AddressActivity, SelectActivity::class.java)
+                    startActivity(intent)
                 }
             })
         })

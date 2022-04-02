@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="activity"
+            type="com.example.yummy_v2.ui.home.SelectActivity" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,6 +24,7 @@
                 android:id="@+id/back_btn"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
+                android:onClick="@{() -> activity.finish()}"
                 android:src="@drawable/ic_back"
                 android:background="@null"/>
 
@@ -32,7 +39,7 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <fragment
+        <com.google.android.gms.maps.MapView
             android:id="@+id/google_map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -70,7 +77,8 @@
                 android:background="@drawable/btn_border"
                 android:text="@string/place_picker_confirm"
                 android:textColor="@color/white"
-                android:fontFamily="@font/font_noto_sans_kr"/>
+                android:fontFamily="@font/font_noto_sans_kr"
+                android:theme="@style/ripple"/>
 
         </LinearLayout>
 

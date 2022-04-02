@@ -9,5 +9,6 @@ class SelectActivity : BaseActivity<ActivitySelectBinding>(R.layout.activity_sel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select)
+        binding.activity = this
     }
 }
