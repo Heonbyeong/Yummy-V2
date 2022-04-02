@@ -1,6 +1,7 @@
 package com.example.yummy_v2.ui.home
 
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +32,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
 
         addressViewModel.liveData.observe(this, Observer {
             val addressAdapter = AddressRVAdapter(addressViewModel.liveData)
+            binding.listIsEmptyTv.visibility = View.INVISIBLE
             binding.addressRv.adapter = addressAdapter
         })
     }
