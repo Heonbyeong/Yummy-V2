@@ -14,8 +14,9 @@
             android:id="@+id/bottom_addr1_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="대전광역시 유성구 가정북로 76\n대덕소프트웨어마이스터고등학교"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black"/>
         <TextView
@@ -30,7 +31,7 @@
             android:id="@+id/confirm_btn"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/btn_border"
             android:text="@string/place_picker_confirm"
             android:textColor="@color/white"
