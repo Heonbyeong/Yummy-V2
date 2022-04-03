@@ -20,7 +20,7 @@
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/black">
+            android:background="@color/white_back">
 
             <LinearLayout
                 android:id="@+id/address_layout"
@@ -35,14 +35,14 @@
                     android:layout_height="wrap_content"
                     android:text="가정북로 76"
                     android:textSize="14sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/font_noto_sans_kr"/>
 
             </LinearLayout>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="20dp"
                 android:onClick="@{() -> fragment.addressActivity()}"
                 android:src="@drawable/ic_magnify2"
