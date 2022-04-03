@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/font_noto_sans_kr"
-                    android:text="@string/address_recommend_title"
+                    android:text="@string/place_picker_title"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
