@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
-        android:background="?attr/selectableItemBackground">
+        android:background="@drawable/item_background">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -34,7 +34,7 @@
                 android:id="@+id/addr1_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <TextView
