@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/bottom_border"
-    android:padding="20dp">
-
-    <TextView
-        android:id="@+id/addr1_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="대전광역시 유성구 가정북로 76\n대덕소프트웨어마이스터고등학교"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
-    <TextView
-        android:id="@+id/addr2_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="장동 23-9 대덕소프트웨어마이스터고등학교"
-        android:textSize="14sp"
-        android:textColor="@color/hint"/>
-
-    <Button
-        android:id="@+id/confirm_btn"
+    <LinearLayout
+        android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="22dp"
-        android:background="@drawable/btn_border"
-        android:text="@string/place_picker_confirm"
-        android:textColor="@color/white"
-        android:fontFamily="@font/font_noto_sans_kr"
-        android:theme="@style/ripple"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bottom_border"
+        android:padding="20dp">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/bottom_addr1_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="대전광역시 유성구 가정북로 76\n대덕소프트웨어마이스터고등학교"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/bottom_addr2_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="장동 23-9 대덕소프트웨어마이스터고등학교"
+            android:textSize="14sp"
+            android:textColor="@color/hint"/>
+
+        <Button
+            android:id="@+id/confirm_btn"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/btn_border"
+            android:text="@string/place_picker_confirm"
+            android:textColor="@color/white"
+            android:fontFamily="@font/font_noto_sans_kr"
+            android:theme="@style/ripple"/>
+
+    </LinearLayout>
+</layout>
+
