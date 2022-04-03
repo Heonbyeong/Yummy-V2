@@ -33,7 +33,6 @@
                     android:id="@+id/address_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="가정북로 76"
                     android:textSize="14sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/font_noto_sans_kr"/>

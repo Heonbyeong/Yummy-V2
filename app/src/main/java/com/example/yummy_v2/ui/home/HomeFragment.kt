@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -42,6 +43,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     private lateinit var mMap: GoogleMap
     private lateinit var mapView: MapView
+
     private var currentMarker: Marker? = null
     private val PERMISSIONS_REQUEST_CODE = 100
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
@@ -243,6 +245,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 if(!isRun){
                     val cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentPosition, 15F)
                     mMap.moveCamera(cameraUpdate)
+                    getLocationFromLocation()
                     isRun = true
                 }
 
@@ -254,5 +257,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     fun addressActivity() {
         val intent = Intent(requireContext(), AddressActivity::class.java)
         requireContext().startActivity(intent)
+    }
+
+    private fun setSearchLocation(lat: Double, lng: Double) {
+        mMap.clear()
+
+        val searchPosition = LatLng(lat, lng)
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(searchPosition, 15F)
+        mMap.moveCamera(cameraUpdate)
+        PlacesAPI(requireContext(), lat, lng, mMap).start()
+    }
+
+    private fun getLocationFromLocation() {
+        val geocoder = Geocoder(requireContext())
+        val address = geocoder.getFromLocation(currentPosition.latitude, currentPosition.longitude, 1)
+        binding.addressTv.text = address[0].getAddressLine(0).removePrefix("대한민국")
     }
 }

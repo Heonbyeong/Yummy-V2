@@ -43,6 +43,9 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                     dialog.show()
                     bottomSheet.binding.bottomAddr1Tv.text = liveData.results.juso[position].roadAddr
                     bottomSheet.binding.bottomAddr2Tv.text = liveData.results.juso[position].jibunAddr
+                    bottomSheet.binding.confirmBtn.setOnClickListener{
+                        finish()
+                    }
                 }
             })
         })
