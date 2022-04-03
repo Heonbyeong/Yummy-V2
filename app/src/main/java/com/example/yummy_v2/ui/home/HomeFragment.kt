@@ -70,6 +70,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         super.onViewCreated(view, savedInstanceState)
         val homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
+        binding.fragment = this
 
         mapView = binding.googleMap
         mapView.onCreate(savedInstanceState)
@@ -248,5 +249,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 PlacesAPI(requireContext(), location.latitude, location.longitude, mMap).start()
             }
         }
+    }
+
+    fun addressActivity() {
+        val intent = Intent(requireContext(), AddressActivity::class.java)
+        requireContext().startActivity(intent)
     }
 }

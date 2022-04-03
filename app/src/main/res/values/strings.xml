@@ -9,4 +9,10 @@
     <string name="default_marker_snippet">위치 권한과 GPS 활성 여부를 확인하세요.</string>
     <string name="dialog_title">위치 서비스 비활성화</string>
     <string name="dialog_message">앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n위치 설정을 수정해주세요.</string>
+    <string name="address_recommend_title">위치 주변 음식점 추천</string>
+    <string name="address_hint">건물명, 도로명 또는 지번으로 검색</string>
+    <string name="address_gps">현재 위치로 주소 설정</string>
+    <string name="address_list_is_empty">최근에 사용한 주소가 없어요</string>
+    <string name="place_picker_title">음식점 추천 주소 설정</string>
+    <string name="place_picker_confirm">선택한 위치로 설정</string>
 </resources>

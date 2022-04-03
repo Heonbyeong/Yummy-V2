@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="fragment"
+            type="com.example.yummy_v2.ui.home.HomeFragment" />
+    </data>
+
     <LinearLayout
         android:id="@+id/layout_home"
         android:layout_width="match_parent"
@@ -32,13 +38,16 @@
                     android:textColor="@color/white"
                     android:fontFamily="@font/font_noto_sans_kr"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_arrow_drop_down_24"/>
-
             </LinearLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:onClick="@{() -> fragment.addressActivity()}"
+                android:src="@drawable/ic_magnify2"
+                android:background="@null"
+                android:layout_gravity="end"/>
 
         </androidx.appcompat.widget.Toolbar>
 
