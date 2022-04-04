@@ -53,7 +53,6 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                     bottomSheet.binding.confirmBtn.setOnClickListener{
                         val intent = Intent(this@AddressActivity, MainActivity::class.java).apply {
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            putExtra("hasExtra", true)
                             putExtra("roadAddr", liveData.results.juso[position].roadAddr)
                         }
                         startActivity(intent)

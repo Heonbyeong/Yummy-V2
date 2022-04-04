@@ -85,10 +85,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         super.onStart()
         mapView.onStart()
         isRun = false
-
+        val intent = requireActivity().intent
 
         if(checkPermission()){
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+            if(!intent.hasExtra("roadAddr")){
+                mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+            }
         }
     }
 
@@ -171,13 +173,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 Manifest.permission.ACCESS_FINE_LOCATION)
             val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION)
+            val intent = requireActivity().intent
+            val roadAddr = intent.getStringExtra("roadAddr")
 
             if(hasFineLocationPermission != PackageManager.PERMISSION_GRANTED ||
                     hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED) {
                 return
             }
-
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+            if(intent.hasExtra("roadAddr")){
+                setSearchLocation(getLocationFromAddress(), roadAddr!!)
+            } else {
+                mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+            }
             if(checkPermission()){
                 mMap.isMyLocationEnabled = true
             }
@@ -259,22 +266,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         requireContext().startActivity(intent)
     }
 
-    private fun setSearchLocation(lat: Double, lng: Double) {
+    private fun setSearchLocation(latLng: LatLng, addr: String) {
         mMap.clear()
 
-        val searchPosition = LatLng(lat, lng)
         val markerOptions = MarkerOptions().apply {
-            position(searchPosition)
-
+            position(latLng)
+            title(requireActivity().getString(R.string.search_marker_title))
+            snippet(addr)
         }
-        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(searchPosition, 15F)
+        mMap.addMarker(markerOptions)
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15F)
         mMap.moveCamera(cameraUpdate)
-        PlacesAPI(requireContext(), lat, lng, mMap).start()
+        binding.addressTv.text = addr
+        PlacesAPI(requireContext(), latLng.latitude, latLng.longitude, mMap).start()
     }
 
     private fun getLocationFromLocation() {
         val geocoder = Geocoder(requireContext())
         val address = geocoder.getFromLocation(currentPosition.latitude, currentPosition.longitude, 1)
         binding.addressTv.text = address[0].getAddressLine(0).removePrefix("대한민국")
+    }
+
+    private fun getLocationFromAddress() : LatLng {
+        val geocoder = Geocoder(requireContext())
+        val intent = requireActivity().intent
+        val address = geocoder.getFromLocationName(intent.getStringExtra("roadAddr"), 1)
+        val latLng = LatLng(address[0].latitude, address[0].longitude)
+        return latLng
     }
 }
