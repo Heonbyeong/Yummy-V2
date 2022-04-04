@@ -25,4 +25,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         )
         navView.setupWithNavController(navController)
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
+    }
 }

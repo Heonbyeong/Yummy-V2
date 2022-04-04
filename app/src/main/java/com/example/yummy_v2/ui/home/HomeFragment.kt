@@ -263,6 +263,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         mMap.clear()
 
         val searchPosition = LatLng(lat, lng)
+        val markerOptions = MarkerOptions().apply {
+            position(searchPosition)
+
+        }
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(searchPosition, 15F)
         mMap.moveCamera(cameraUpdate)
         PlacesAPI(requireContext(), lat, lng, mMap).start()
