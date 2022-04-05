@@ -61,4 +61,11 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
             })
         })
     }
+
+    fun setMyLocation() {
+        val intent = Intent(this@AddressActivity, MainActivity::class.java).apply {
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
+    }
 }
