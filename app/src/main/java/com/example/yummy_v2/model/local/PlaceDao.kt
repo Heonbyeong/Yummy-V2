@@ -1,9 +1,6 @@
 package com.example.yummy_v2.model.local
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface PlaceDao {
@@ -15,4 +12,7 @@ interface PlaceDao {
 
     @Delete
     fun delete(place: Place)
+
+    @Query("SELECT * FROM Place")
+    fun getAll() : List<Place>
 }
