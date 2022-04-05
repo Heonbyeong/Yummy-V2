@@ -8,7 +8,8 @@ import com.google.android.gms.maps.model.LatLng
 data class Place(
     var name: String,
     var address: String,
-    var latLng: LatLng
+    var lat: Double,
+    var lng: Double
 ) {
     @PrimaryKey(autoGenerate = true) var id: Int = 0
 }
