@@ -16,4 +16,7 @@
     <string name="place_picker_title">음식점 추천 주소 설정</string>
     <string name="place_picker_confirm">선택한 위치로 설정</string>
     <string name="search_marker_title">검색한 위치</string>
+    <string name="recommend_title">오늘 메뉴는\n야미가 책임질게요</string>
+    <string name="recommend_button">내 주변 음식점 추천 받기</string>
+    <string name="recommend_list_hint">추천 받은 음식점이 없어요</string>
 </resources>

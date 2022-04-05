@@ -15,10 +15,10 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(R.layout.fragme
 
         val dashboardViewModel =
             ViewModelProvider(this).get(RecommendViewModel::class.java)
-
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+//
+//        val textView: TextView = binding.textDashboard
+//        dashboardViewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = it
+//        }
     }
 }

@@ -6,6 +6,7 @@
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/drawable/bottom_border.xml" value="0.241" />
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/drawable/box_border.xml" value="0.241" />
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/drawable/btn_border.xml" value="0.241" />
+        <entry key="..\:/Programming/Yummy-V2/app/src/main/res/drawable/btn_ripple.xml" value="0.178" />
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/drawable/ic_close.xml" value="0.241" />
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/drawable/ic_gps.xml" value="0.241" />
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/drawable/ic_list_marker.xml" value="0.1645" />
@@ -22,7 +23,7 @@
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/layout/address_bottom.xml" value="0.34791666666666665" />
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/layout/address_item.xml" value="0.25" />
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/layout/fragment_home.xml" value="0.33" />
-        <entry key="..\:/Programming/Yummy-V2/app/src/main/res/layout/fragment_recommend.xml" value="0.34791666666666665" />
+        <entry key="..\:/Programming/Yummy-V2/app/src/main/res/layout/fragment_recommend.xml" value="0.33" />
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/layout/restaurants_bottom_sheet.xml" value="0.33" />
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/menu/bottom_nav_menu.xml" value="0.34791666666666665" />
         <entry key="..\:/Programming/Yummy-V2/app/src/main/res/menu/menu_selector_color.xml" value="0.34791666666666665" />
