@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -42,6 +43,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     private lateinit var mMap: GoogleMap
     private lateinit var mapView: MapView
+
     private var currentMarker: Marker? = null
     private val PERMISSIONS_REQUEST_CODE = 100
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
@@ -83,10 +85,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         super.onStart()
         mapView.onStart()
         isRun = false
-
+        val intent = requireActivity().intent
 
         if(checkPermission()){
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+            if(!intent.hasExtra("roadAddr")){
+                mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+            }
         }
     }
 
@@ -169,13 +173,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 Manifest.permission.ACCESS_FINE_LOCATION)
             val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION)
+            val intent = requireActivity().intent
+            val roadAddr = intent.getStringExtra("roadAddr")
 
             if(hasFineLocationPermission != PackageManager.PERMISSION_GRANTED ||
                     hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED) {
                 return
             }
-
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+            if(intent.hasExtra("roadAddr")){
+                setSearchLocation(getLocationFromAddress(), roadAddr!!)
+            } else {
+                mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+            }
             if(checkPermission()){
                 mMap.isMyLocationEnabled = true
             }
@@ -243,6 +252,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 if(!isRun){
                     val cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentPosition, 15F)
                     mMap.moveCamera(cameraUpdate)
+                    getLocationFromLocation()
                     isRun = true
                 }
 
@@ -254,5 +264,34 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     fun addressActivity() {
         val intent = Intent(requireContext(), AddressActivity::class.java)
         requireContext().startActivity(intent)
+    }
+
+    private fun setSearchLocation(latLng: LatLng, addr: String) {
+        mMap.clear()
+
+        val markerOptions = MarkerOptions().apply {
+            position(latLng)
+            title(requireActivity().getString(R.string.search_marker_title))
+            snippet(addr)
+        }
+        mMap.addMarker(markerOptions)
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15F)
+        mMap.moveCamera(cameraUpdate)
+        binding.addressTv.text = addr
+        PlacesAPI(requireContext(), latLng.latitude, latLng.longitude, mMap).start()
+    }
+
+    private fun getLocationFromLocation() {
+        val geocoder = Geocoder(requireContext())
+        val address = geocoder.getFromLocation(currentPosition.latitude, currentPosition.longitude, 1)
+        binding.addressTv.text = address[0].getAddressLine(0).removePrefix("대한민국")
+    }
+
+    private fun getLocationFromAddress() : LatLng {
+        val geocoder = Geocoder(requireContext())
+        val intent = requireActivity().intent
+        val address = geocoder.getFromLocationName(intent.getStringExtra("roadAddr"), 1)
+        val latLng = LatLng(address[0].latitude, address[0].longitude)
+        return latLng
     }
 }

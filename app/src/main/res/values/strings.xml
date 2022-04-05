@@ -15,4 +15,5 @@
     <string name="address_list_is_empty">최근에 사용한 주소가 없어요</string>
     <string name="place_picker_title">음식점 추천 주소 설정</string>
     <string name="place_picker_confirm">선택한 위치로 설정</string>
+    <string name="search_marker_title">검색한 위치</string>
 </resources>
