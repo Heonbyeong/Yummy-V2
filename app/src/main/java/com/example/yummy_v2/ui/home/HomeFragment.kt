@@ -3,6 +3,7 @@ package com.example.yummy_v2.ui.home
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,11 +17,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.yummy_v2.R
 import com.example.yummy_v2.base.BaseFragment
 import com.example.yummy_v2.databinding.FragmentHomeBinding
+import com.example.yummy_v2.model.local.PlaceDatabase
+import com.example.yummy_v2.model.remote.PlaceRepository
 import com.example.yummy_v2.network.PlacesAPI
+import com.example.yummy_v2.ui.recommend.RecommendViewModel
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -28,7 +33,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnMapReadyCallback {
 
     private val gps =
@@ -57,6 +64,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     private lateinit var currentPosition : LatLng
 
+    private val recommendViewModel : RecommendViewModel by viewModels()
+
     private var isRun = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,9 +79,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
         binding.fragment = this
+        recommendViewModel
 
         mapView = binding.googleMap
         mapView.onCreate(savedInstanceState)
@@ -256,7 +264,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     isRun = true
                 }
 
-                PlacesAPI(requireContext(), location.latitude, location.longitude, mMap).start()
+                PlacesAPI(requireContext(), location.latitude, location.longitude, mMap, recommendViewModel).start()
             }
         }
     }
@@ -278,7 +286,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15F)
         mMap.moveCamera(cameraUpdate)
         binding.addressTv.text = addr
-        PlacesAPI(requireContext(), latLng.latitude, latLng.longitude, mMap).start()
+        PlacesAPI(requireContext(), latLng.latitude, latLng.longitude, mMap, recommendViewModel).start()
     }
 
     private fun getLocationFromLocation() {

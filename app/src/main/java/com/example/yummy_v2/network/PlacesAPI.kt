@@ -5,28 +5,29 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.room.Room
 import com.example.yummy_v2.BuildConfig
 import com.example.yummy_v2.R
 import com.example.yummy_v2.model.local.Place
-import com.example.yummy_v2.model.local.PlaceDatabase
+import com.example.yummy_v2.ui.recommend.RecommendViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
+import dagger.hilt.android.internal.managers.ViewComponentManager
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.Exception
 import java.net.URL
-import java.util.*
 import kotlin.collections.ArrayList
 
 class PlacesAPI(
     private val mContext: Context,
     private val _lat: Double,
     private val _lng: Double,
-    private val _map: GoogleMap
+    private val _map: GoogleMap,
+    private val viewModel: RecommendViewModel
 ) : Thread() {
 
     private val lat_list = ArrayList<Double>()
@@ -34,6 +35,10 @@ class PlacesAPI(
     private val vicinity_list = ArrayList<String>()
     private val name_list = ArrayList<String>()
     private val marker_list = ArrayList<Marker>()
+    private val context : Context =
+        if(mContext is ViewComponentManager.FragmentContextWrapper)
+            mContext.baseContext
+        else mContext
 
     override fun run() {
         super.run()
@@ -65,7 +70,6 @@ class PlacesAPI(
 
             if (status.equals("OK")) {
                 val result = root.getJSONArray("results")
-                val db = PlaceDatabase.getInstance(mContext)
                 for (i in 0 until result.length()) {
                     val obj = result.getJSONObject(i)
                     val geometry = obj.getJSONObject("geometry")
@@ -82,7 +86,8 @@ class PlacesAPI(
                     vicinity_list.add(vicinity)
 
                     val place = Place(name, vicinity, lat, lng)
-                    db!!.placeDao().insert(place)
+                    viewModel.insert(place)
+                    Log.d("PlacesAPI", viewModel.getAll().toString())
                 }
                 placeMarker()
             } else {
@@ -100,7 +105,7 @@ class PlacesAPI(
         }
         marker_list.clear()
 
-        (mContext as Activity).runOnUiThread{
+        (context as Activity).runOnUiThread{
             for(i in 0 until lat_list.size){
                 val options = MarkerOptions()
                 val pos = LatLng(lat_list[i], lng_list[i])
