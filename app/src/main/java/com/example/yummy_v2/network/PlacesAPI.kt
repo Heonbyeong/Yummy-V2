@@ -7,8 +7,11 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.room.Room
 import com.example.yummy_v2.BuildConfig
 import com.example.yummy_v2.R
+import com.example.yummy_v2.model.local.Place
+import com.example.yummy_v2.model.local.PlaceDatabase
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
 import org.json.JSONObject
@@ -62,6 +65,7 @@ class PlacesAPI(
 
             if (status.equals("OK")) {
                 val result = root.getJSONArray("results")
+                val db = PlaceDatabase.getInstance(mContext)
                 for (i in 0 until result.length()) {
                     val obj = result.getJSONObject(i)
                     val geometry = obj.getJSONObject("geometry")
@@ -76,6 +80,9 @@ class PlacesAPI(
                     lng_list.add(lng)
                     name_list.add(name)
                     vicinity_list.add(vicinity)
+
+                    val place = Place(name, vicinity, lat, lng)
+                    db!!.placeDao().insert(place)
                 }
                 placeMarker()
             } else {
