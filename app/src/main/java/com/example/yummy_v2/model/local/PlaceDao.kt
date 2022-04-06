@@ -1,18 +1,19 @@
 package com.example.yummy_v2.model.local
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface PlaceDao {
-    @Insert
-    fun insert(place: Place)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(place: Place)
 
     @Update
-    fun update(place: Place)
+    suspend fun update(place: Place)
 
     @Delete
-    fun delete(place: Place)
+    suspend fun delete(place: Place)
 
     @Query("SELECT * FROM Place")
-    fun getAll() : List<Place>
+    fun getAll() : LiveData<List<Place>>
 }
