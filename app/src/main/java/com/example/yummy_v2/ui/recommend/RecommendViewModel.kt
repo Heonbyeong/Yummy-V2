@@ -1,13 +1,46 @@
 package com.example.yummy_v2.ui.recommend
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.yummy_v2.model.local.Place
+import com.example.yummy_v2.model.local.PlaceDatabase
+import com.example.yummy_v2.model.remote.PlaceRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RecommendViewModel : ViewModel() {
+@HiltViewModel
+class RecommendViewModel @Inject constructor (application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+    private val readAllData : LiveData<List<Place>>
+    private val repository : PlaceRepository
+
+    init {
+        val placeDao = PlaceDatabase.getInstance(application)!!.placeDao()
+        repository = PlaceRepository(placeDao)
+        readAllData = repository.getAll
     }
-    val text: LiveData<String> = _text
+
+    fun insert(place: Place){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(place)
+        }
+    }
+
+    fun update(place: Place){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.update(place)
+        }
+    }
+
+    fun delete(place: Place){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.delete(place)
+        }
+    }
+
+    fun getAll() = readAllData.value
 }
