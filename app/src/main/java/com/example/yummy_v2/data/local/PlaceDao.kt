@@ -1,4 +1,4 @@
-package com.example.yummy_v2.model.local
+package com.example.yummy_v2.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

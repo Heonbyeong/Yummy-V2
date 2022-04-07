@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yummy_v2.R
 import com.example.yummy_v2.databinding.RestaurantsItemBinding
-import com.example.yummy_v2.model.local.Place
+import com.example.yummy_v2.data.local.Place
 
 class RestaurantsRVAdapter(private val items: List<Place>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

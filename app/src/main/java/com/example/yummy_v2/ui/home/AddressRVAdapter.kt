@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yummy_v2.R
 import com.example.yummy_v2.databinding.AddressItemBinding
-import com.example.yummy_v2.model.remote.AddressResponse
+import com.example.yummy_v2.data.remote.AddressResponse
 
 class AddressRVAdapter(private val items: AddressResponse) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

@@ -1,6 +1,6 @@
 package com.example.yummy_v2.network
 
-import com.example.yummy_v2.model.remote.AddressResponse
+import com.example.yummy_v2.data.remote.AddressResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

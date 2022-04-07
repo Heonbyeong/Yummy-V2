@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yummy_v2.model.remote.AddressRepositoryImpl
-import com.example.yummy_v2.model.remote.AddressResponse
+import com.example.yummy_v2.data.remote.AddressRepositoryImpl
+import com.example.yummy_v2.data.remote.AddressResponse
 import kotlinx.coroutines.launch
 
 class AddressViewModel : ViewModel() {

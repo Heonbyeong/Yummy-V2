@@ -4,9 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.yummy_v2.model.local.Place
-import com.example.yummy_v2.model.local.PlaceDatabase
-import com.example.yummy_v2.model.remote.PlaceRepository
+import com.example.yummy_v2.data.local.Place
+import com.example.yummy_v2.data.local.PlaceDatabase
+import com.example.yummy_v2.data.remote.PlaceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

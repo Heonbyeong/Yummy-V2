@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.yummy_v2.BuildConfig
 import com.example.yummy_v2.R
-import com.example.yummy_v2.model.local.Place
+import com.example.yummy_v2.data.local.Place
 import com.example.yummy_v2.ui.recommend.RecommendViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*

@@ -1,4 +1,4 @@
-package com.example.yummy_v2.model.remote
+package com.example.yummy_v2.data.remote
 
 import com.example.yummy_v2.network.RetrofitBuilder
 import com.example.yummy_v2.network.SafeApiCall

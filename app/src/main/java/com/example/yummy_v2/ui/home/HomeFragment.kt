@@ -3,7 +3,6 @@ package com.example.yummy_v2.ui.home
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -18,12 +17,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.example.yummy_v2.R
 import com.example.yummy_v2.base.BaseFragment
 import com.example.yummy_v2.databinding.FragmentHomeBinding
-import com.example.yummy_v2.model.local.PlaceDatabase
-import com.example.yummy_v2.model.remote.PlaceRepository
 import com.example.yummy_v2.network.PlacesAPI
 import com.example.yummy_v2.ui.recommend.RecommendViewModel
 import com.google.android.gms.location.*

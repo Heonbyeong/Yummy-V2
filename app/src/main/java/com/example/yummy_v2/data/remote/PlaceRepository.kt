@@ -1,8 +1,8 @@
-package com.example.yummy_v2.model.remote
+package com.example.yummy_v2.data.remote
 
 import androidx.lifecycle.LiveData
-import com.example.yummy_v2.model.local.Place
-import com.example.yummy_v2.model.local.PlaceDao
+import com.example.yummy_v2.data.local.Place
+import com.example.yummy_v2.data.local.PlaceDao
 
 class PlaceRepository(private val placeDao: PlaceDao) {
     val getAll : LiveData<List<Place>> = placeDao.getAll()

@@ -1,4 +1,4 @@
-package com.example.yummy_v2.model.remote
+package com.example.yummy_v2.data.remote
 
 import retrofit2.Response
 
