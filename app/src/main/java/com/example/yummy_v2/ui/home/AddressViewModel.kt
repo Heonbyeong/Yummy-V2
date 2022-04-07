@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yummy_v2.data.remote.AddressRepositoryImpl
+import com.example.yummy_v2.data.remote.AddressRepository
 import com.example.yummy_v2.data.remote.AddressResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddressViewModel : ViewModel() {
-    private val repository = AddressRepositoryImpl()
+@HiltViewModel
+class AddressViewModel @Inject constructor(private val repository : AddressRepository) : ViewModel() {
     private val _liveData: MutableLiveData<AddressResponse> = MutableLiveData()
     val liveData : LiveData<AddressResponse> get() = _liveData
 
