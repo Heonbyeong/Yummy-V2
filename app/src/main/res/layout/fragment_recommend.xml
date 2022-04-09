@@ -10,33 +10,40 @@
             type="com.example.yummy_v2.ui.recommend.RecommendFragment" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/secondary">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:context=".ui.recommend.RecommendFragment">
 
             <TextView
                 android:id="@+id/recommend_addr_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@color/black"
                 android:layout_gravity="center"
-                android:fontFamily="@font/font_noto_sans_kr"/>
+                android:fontFamily="@font/font_noto_sans_kr"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -56,38 +63,27 @@
             android:id="@+id/recommend_btn"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_marginTop="1dp"
+            android:background="@drawable/btn_ripple"
+            android:clickable="true"
+            android:fontFamily="@font/font_noto_sans_kr"
+            android:gravity="center"
             android:onClick="@{() -> fragment.recommend()}"
             android:text="@string/recommend_button"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:gravity="center"
-            android:clickable="true"
-            android:fontFamily="@font/font_noto_sans_kr"
-            android:background="@drawable/btn_ripple"/>
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recommend_btn">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recommend_rv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/recommend_hint"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font_noto_sans_kr"
-                android:text="@string/recommend_list_hint"
-                android:textColor="@color/hint"
-                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -95,6 +91,39 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/recommend_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_noto_sans_kr"
+            android:text="@string/recommend_list_hint"
+            android:textColor="@color/hint"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/blur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:background="#80C4C4C4"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_lottie" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
