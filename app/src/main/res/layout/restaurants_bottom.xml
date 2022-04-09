@@ -24,15 +24,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="쿠우쿠우 대전유성점 "
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/black"/>
+        
         <TextView
             android:id="@+id/bottom_addr_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="대전 유성구 온천로 34 3층"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/black"/>
