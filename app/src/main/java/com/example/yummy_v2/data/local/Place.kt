@@ -1,9 +1,9 @@
-package com.example.yummy_v2.model.local
+package com.example.yummy_v2.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "Place")
 data class Place(
     var name: String,
     var address: String,

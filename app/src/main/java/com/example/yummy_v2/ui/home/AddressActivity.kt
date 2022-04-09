@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,15 +16,17 @@ import com.example.yummy_v2.R
 import com.example.yummy_v2.base.BaseActivity
 import com.example.yummy_v2.databinding.ActivityAddressBinding
 import com.example.yummy_v2.util.BottomSheetDialogUtil
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_address) {
-    private lateinit var addressViewModel : AddressViewModel
+    private val addressViewModel : AddressViewModel by viewModels()
     private val bottomSheet = BottomSheetDialogUtil(this@AddressActivity)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.activity = this
+        addressViewModel
 
-        addressViewModel = ViewModelProvider(this).get(AddressViewModel::class.java)
         binding.addressRv.layoutManager = LinearLayoutManager(this)
 
         binding.addressEt.setOnEditorActionListener{v, actionId, event ->
