@@ -15,7 +15,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="대전광역시 유성구 가정북로 76\n대덕소프트웨어마이스터고등학교"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black"/>
@@ -23,7 +22,6 @@
             android:id="@+id/bottom_addr2_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="장동 23-9 대덕소프트웨어마이스터고등학교"
             android:textSize="14sp"
             android:textColor="@color/hint"/>
 
