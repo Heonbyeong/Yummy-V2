@@ -15,12 +15,13 @@ import javax.inject.Singleton
 @Module
 class LocalDataModule {
     @Provides
-    fun providePlaceDao(db: PlaceDatabase): PlaceDao
-        = db.placeDao()
-
-    @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): PlaceDatabase
-        = Room.databaseBuilder(context, PlaceDatabase::class.java,
-            "place-database").build()
+            = Room.databaseBuilder(context, PlaceDatabase::class.java,
+        "place-database").build()
+
+    @Singleton
+    @Provides
+    fun providePlaceDao(db: PlaceDatabase): PlaceDao
+        = db.placeDao()
 }
