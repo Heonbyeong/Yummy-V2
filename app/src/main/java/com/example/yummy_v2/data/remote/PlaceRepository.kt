@@ -1,12 +1,9 @@
 package com.example.yummy_v2.data.remote
 
-import androidx.lifecycle.LiveData
 import com.example.yummy_v2.data.local.Place
 import com.example.yummy_v2.data.local.PlaceDao
-import javax.inject.Inject
 
-class PlaceRepository @Inject constructor(private val placeDao: PlaceDao) {
-    val getAll : LiveData<List<Place>> = placeDao.getAll()
+class PlaceRepository(private val placeDao: PlaceDao) {
 
     suspend fun insert(place: Place) {
         placeDao.insert(place)
@@ -19,4 +16,6 @@ class PlaceRepository @Inject constructor(private val placeDao: PlaceDao) {
     suspend fun delete(place: Place) {
         placeDao.delete(place)
     }
+
+    fun getAll() = placeDao.getAll()
 }
