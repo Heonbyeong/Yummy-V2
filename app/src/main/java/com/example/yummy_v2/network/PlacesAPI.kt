@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.yummy_v2.BuildConfig
@@ -87,7 +86,6 @@ class PlacesAPI(
 
                     val place = Place(name, vicinity, lat, lng)
                     viewModel.insert(place)
-                    Log.d("PlacesAPI", viewModel.getAll().toString())
                 }
                 placeMarker()
             } else {
@@ -129,4 +127,5 @@ class PlacesAPI(
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
+
 }

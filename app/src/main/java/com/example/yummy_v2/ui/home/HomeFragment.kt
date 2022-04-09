@@ -257,10 +257,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     val cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentPosition, 15F)
                     mMap.moveCamera(cameraUpdate)
                     getLocationFromLocation()
+                    PlacesAPI(requireContext(), location.latitude, location.longitude, mMap, recommendViewModel).start()
                     isRun = true
                 }
 
-                PlacesAPI(requireContext(), location.latitude, location.longitude, mMap, recommendViewModel).start()
             }
         }
     }
