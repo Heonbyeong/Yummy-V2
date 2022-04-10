@@ -40,4 +40,10 @@ class RecommendViewModel @Inject constructor (application: Application, private 
             _restaurants.postValue(repository.getAll())
         }
     }
+
+    fun deleteAll() {
+        viewModelScope.launch() {
+            repository.deleteAll()
+        }
+    }
 }

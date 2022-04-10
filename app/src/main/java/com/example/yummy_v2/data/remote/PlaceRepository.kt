@@ -18,4 +18,8 @@ class PlaceRepository(private val placeDao: PlaceDao) {
     }
 
     suspend fun getAll() = placeDao.getAll()
+
+    suspend fun deleteAll() {
+        placeDao.deleteAll()
+    }
 }
