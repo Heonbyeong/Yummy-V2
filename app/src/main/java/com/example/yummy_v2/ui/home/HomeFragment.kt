@@ -21,7 +21,9 @@ import com.example.yummy_v2.R
 import com.example.yummy_v2.base.BaseFragment
 import com.example.yummy_v2.databinding.FragmentHomeBinding
 import com.example.yummy_v2.network.PlacesAPI
+import com.example.yummy_v2.ui.recommend.RecommendFragment
 import com.example.yummy_v2.ui.recommend.RecommendViewModel
+import com.example.yummy_v2.util.PrefsHelper
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -30,6 +32,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnMapReadyCallback {
@@ -61,8 +64,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     private lateinit var currentPosition : LatLng
 
     private val recommendViewModel : RecommendViewModel by viewModels()
-
     private var isRun = false
+
+    @Inject
+    lateinit var prefs : PrefsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         super.onViewCreated(view, savedInstanceState)
         binding.fragment = this
         recommendViewModel
+        prefs
 
         mapView = binding.googleMap
         mapView.onCreate(savedInstanceState)
@@ -102,8 +108,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         super.onStop()
         mapView.onStop()
 
-        if(mFusedLocationClient != null)
+        if(mFusedLocationClient != null){
             mFusedLocationClient.removeLocationUpdates(locationCallback)
+        }
     }
 
     override fun onResume() {
@@ -258,6 +265,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     mMap.moveCamera(cameraUpdate)
                     getLocationFromLocation()
                     PlacesAPI(requireContext(), location.latitude, location.longitude, mMap, recommendViewModel).start()
+
+                    prefs.curLat = currentPosition.latitude.toString()
+                    prefs.curLng = currentPosition.longitude.toString()
                     isRun = true
                 }
 
@@ -287,7 +297,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     private fun getLocationFromLocation() {
         val geocoder = Geocoder(requireContext())
-        val address = geocoder.getFromLocation(currentPosition.latitude, currentPosition.longitude, 1)
+        val address = geocoder.getFromLocation(currentPosition.latitude, currentPosition.longitude, 2)
         binding.addressTv.text = address[0].getAddressLine(0).removePrefix("대한민국")
     }
 
