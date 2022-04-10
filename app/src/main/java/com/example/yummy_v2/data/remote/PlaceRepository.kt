@@ -17,5 +17,5 @@ class PlaceRepository(private val placeDao: PlaceDao) {
         placeDao.delete(place)
     }
 
-    fun getAll() = placeDao.getAll()
+    suspend fun getAll() = placeDao.getAll()
 }
