@@ -42,7 +42,7 @@ class RecommendViewModel @Inject constructor (application: Application, private 
     }
 
     fun deleteAll() {
-        viewModelScope.launch() {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAll()
         }
     }
