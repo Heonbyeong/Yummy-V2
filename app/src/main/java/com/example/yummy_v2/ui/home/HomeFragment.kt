@@ -264,6 +264,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     val cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentPosition, 15F)
                     mMap.moveCamera(cameraUpdate)
                     getLocationFromLocation()
+
+                    recommendViewModel.deleteAll()
                     PlacesAPI(requireContext(), location.latitude, location.longitude, mMap, recommendViewModel).start()
 
                     prefs.curLat = currentPosition.latitude.toString()
@@ -292,6 +294,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15F)
         mMap.moveCamera(cameraUpdate)
         binding.addressTv.text = addr
+
+        recommendViewModel.deleteAll()
         PlacesAPI(requireContext(), latLng.latitude, latLng.longitude, mMap, recommendViewModel).start()
     }
 
